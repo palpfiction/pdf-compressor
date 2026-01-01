@@ -28,6 +28,9 @@ The most important one is that a family member needed to compress a high amount 
 ## Credits
 
 - Ghostscript WASM integration based on work by [Laurent Meyer](https://github.com/laurentmmeyer/ghostscript-pdf-compress.wasm) (AGPL-3.0)
+  - `gs-worker.js` - Modified line 713 to use local WASM file instead of CDN
+  - `gs-worker.wasm` - Used as-is from the original repository  
+  - `background-worker.js` - Based on original, modified to support configurable quality settings
 - Ghostscript WASM build by [ochachacha](https://github.com/ochachacha/ps-wasm)
 - [Ghostscript](https://www.ghostscript.com/) by Artifex Software
 

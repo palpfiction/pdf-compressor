@@ -1,3 +1,12 @@
+/**
+ * Ghostscript WASM Module
+ * 
+ * Source: https://github.com/laurentmmeyer/ghostscript-pdf-compress.wasm
+ * License: AGPL-3.0
+ * 
+ * Modified: Line 705 changed from CDN URL to local file path (gs-worker.wasm)
+ */
+
 // include: shell.js
 // The Module object: Our interface to the outside world. We import
 // and export values on it. There are various ways Module can be used:
@@ -702,10 +711,10 @@ function createExportWrapper(name) {
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
 var wasmBinaryFile;
-  wasmBinaryFile = "https://cdn-wasm.b-cdn.net/gs-worker.wasm";
-  // if (!isDataURI(wasmBinaryFile)) {
-  //   wasmBinaryFile = locateFile(wasmBinaryFile);
-  // }
+  wasmBinaryFile = "gs-worker.wasm";
+   if (!isDataURI(wasmBinaryFile)) {
+     wasmBinaryFile = locateFile(wasmBinaryFile);
+   }
 
 function getBinarySync(file) {
   if (file == wasmBinaryFile && wasmBinary) {
