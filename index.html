@@ -418,9 +418,7 @@
             </div>
 
             <div class="footer">
-                <p style="font-size: 12px; color: #888; margin-bottom: 8px;">
-                    PDF compression powered by <a href="https://www.ghostscript.com/" target="_blank">Ghostscript</a>
-                </p>
+                <p style="font-size: 12px; color: #888; margin-bottom: 8px;" data-i18n="poweredBy"></p>
                 <a href="https://github.com/laurentmmeyer/ghostscript-pdf-compress.wasm" target="_blank" data-i18n="credits">
                     Based on work by Laurent Meyer
                 </a>
@@ -451,6 +449,7 @@
                 statsTitle: "Compression result",
                 statsText: "{original} → {compressed} ({percent}% smaller)",
                 credits: "Based on work by Laurent Meyer",
+                poweredBy: "PDF compression powered by",
                 smaller: "smaller",
                 error: "Error"
             },
@@ -473,12 +472,20 @@
                 statsTitle: "Resultado de la compresión",
                 statsText: "{original} → {compressed} ({percent}% más pequeño)",
                 credits: "Basado en el trabajo de Laurent Meyer",
+                poweredBy: "Compresión de PDF con tecnología de",
                 smaller: "más pequeño",
                 error: "Error"
             }
         };
 
-        let currentLang = localStorage.getItem('pdfCompressorLang') || 'en';
+        // Detect browser language (prioritize Spanish, default to English)
+        function getBrowserLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            // Check if browser language starts with 'es' (es, es-ES, es-MX, etc.)
+            return browserLang.toLowerCase().startsWith('es') ? 'es' : 'en';
+        }
+
+        let currentLang = localStorage.getItem('pdfCompressorLang') || getBrowserLanguage();
 
         function t(key, replacements = {}) {
             let text = translations[currentLang][key] || translations['en'][key] || key;
@@ -491,7 +498,10 @@
         function updateUI() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (el.tagName === 'OPTION') {
+                if (key === 'poweredBy') {
+                    // Special handling for poweredBy to preserve the link
+                    el.innerHTML = t(key) + ' <a href="https://www.ghostscript.com/" target="_blank">Ghostscript</a>';
+                } else if (el.tagName === 'OPTION') {
                     el.textContent = t(key);
                 } else if (el.tagName === 'INPUT' || el.tagName === 'BUTTON') {
                     el.textContent = t(key);
